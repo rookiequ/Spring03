@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+    <!--告知spring在创建容器时要扫描的包，配置所需要的标签不是在beans的约束中，而是一个名称为
+   context名称空间和约束中-->
+    <context:component-scan base-package="com.user"></context:component-scan>
+
+    <!--&lt;!&ndash;service是需要在servlet使用，因此先配置service&ndash;&gt;
+    <bean id="accountService" class="com.user.service.impl.AccountServiceImpl">
+        &lt;!&ndash;service有成员变量，需要注入参数，即注入bean，而且使用set方法注入&ndash;&gt;
+        <property name="accountDAO" ref="accountDAO"></property>
+    </bean>
+
+    &lt;!&ndash;对应上面的ref，需要在这里注入对应的accountDAO的bean对象&ndash;&gt;
+    <bean id="accountDAO" class="com.user.dao.impl.AccountDAOImpl">
+        &lt;!&ndash;dao也有成员变量queryRunner，要注入&ndash;&gt;
+        <property name="queryRunner" ref="runner"></property>
+    </bean>-->
+
+    <!--注入QueryRunner对象，即在这里初始化他，将QueryRunner设置多例-->
+    <bean id="runner" class="org.apache.commons.dbutils.QueryRunner" scope="prototype">
+        <!--回忆前面的QueryRunner的代码  QueryRunner qr = new QueryRunner(source)-->
+        <constructor-arg name="ds" ref="source"></constructor-arg>
+    </bean>
+
+    <!--QueryRunner依赖于source，我们之前学的source都是由c3p0创建的连接池-->
+    <bean id="source" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <property name="driverClass" value="com.mysql.jdbc.Driver"></property>
+        <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/springdb01?characterEncoding=UTF-8"></property>
+        <property name="user" value="root"></property>
+        <property name="password" value="123456"></property>
+    </bean>
+
+</beans>

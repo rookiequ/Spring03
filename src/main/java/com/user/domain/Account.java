@@ -9,7 +9,7 @@ public class Account implements Serializable {
 
     private Integer id;
     private String name;
-    private float monty;
+    private float money;
 
     public Integer getId() {
         return id;
@@ -27,12 +27,12 @@ public class Account implements Serializable {
         this.name = name;
     }
 
-    public float getMonty() {
-        return monty;
+    public float getMoney() {
+        return money;
     }
 
-    public void setMonty(float monty) {
-        this.monty = monty;
+    public void setMoney(float money) {
+        this.money = money;
     }
 
     @Override
@@ -40,7 +40,7 @@ public class Account implements Serializable {
         return "Account{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", monty=" + monty +
+                ", money=" + money +
                 '}';
     }
 }

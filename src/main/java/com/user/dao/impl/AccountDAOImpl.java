@@ -5,6 +5,8 @@ import com.user.domain.Account;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -12,13 +14,16 @@ import java.util.List;
 /**
  * @author zzq
  */
+@Repository("accountDAO")
 public class AccountDAOImpl implements AccountDAO {
 
-    QueryRunner queryRunner;
+    //自动注入QueryRunner对象，但是QueryRunner需要创建，jar包无法修改，因此这里还是要在配置文件中配置
+    @Autowired
+    private QueryRunner queryRunner;
 
-    public void setQueryRunner(QueryRunner queryRunner) {
+    /*public void setQueryRunner(QueryRunner queryRunner) {
         this.queryRunner = queryRunner;
-    }
+    }*/
 
     public List<Account> findAllAccount() throws SQLException {
         return queryRunner.query("select * from account", new BeanListHandler<Account>(Account.class));
@@ -31,13 +36,13 @@ public class AccountDAOImpl implements AccountDAO {
     public void saveAccount(Account account) throws SQLException {
         queryRunner.update("insert into account(name, money) values(?,?)",
                 account.getName(),
-                account.getMonty());
+                account.getMoney());
     }
 
     public void updateAccount(Account account) throws SQLException {
         queryRunner.update("update account set name=?, money=? where id=?",
                 account.getName(),
-                account.getMonty(),
+                account.getMoney(),
                 account.getId());
     }
 
