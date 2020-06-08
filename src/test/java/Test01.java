@@ -1,8 +1,12 @@
+import com.user.config.SpringConfiguration01;
+import com.user.config.SpringConfiguration02;
+import com.user.config.SpringConfiguration03;
 import com.user.domain.Account;
 import com.user.service.AccountService;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.sql.SQLException;
@@ -18,7 +22,10 @@ public class Test01 {
 
     @Before
     public void init(){
-        applicationContext = new ClassPathXmlApplicationContext("bean.xml");
+        //1.配置文件的方式
+//        applicationContext = new ClassPathXmlApplicationContext("bean.xml");
+        //2.注解的方式
+        applicationContext = new AnnotationConfigApplicationContext(SpringConfiguration03.class);
         accountService = applicationContext.getBean("accountService",AccountService.class);
     }
 
